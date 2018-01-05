@@ -10,7 +10,7 @@ import UIKit
 
 class TodoListViewController: UITableViewController {
 
-    let itemArray = ["Find Mike","Buy Eggos", "Destroy Demogorgon"]
+    var itemArray = ["Find Mike","Buy Eggos", "Destroy Demogorgon"]
     
     
     override func viewDidLoad() {
@@ -50,6 +50,49 @@ class TodoListViewController: UITableViewController {
         
         
         
+    }
+    
+    
+    //MARK - Add New Items
+    @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
+        
+        var textField = UITextField()
+        
+        
+        // add an alert
+        let alert = UIAlertController(title: "Add New Todoey Item", message: "", preferredStyle: .alert)
+        // add an action
+        
+        
+        // NOTE we are in an enclosure block
+        // NOTE (stuff) represents the alert
+        let action = UIAlertAction(title: "Add Item", style: .default) { (stuff) in
+            // what will happen once the user clicks the Add Item button on our UIAlert
+            // this inside enclosure statement, only activated after addTextField is run
+
+            // 'self' keyword needed as we're inside an enclosure
+            print(stuff.title!)
+            
+            self.itemArray.append(textField.text!)
+            self.tableView.reloadData()
+            
+            
+        }
+        
+        // and another enclosure block
+        // alerttextfield variable represents the textfield
+        // note problems on sequencing
+        alert.addTextField { (alertTextField) in
+            alertTextField.placeholder = "Create new item"
+            textField = alertTextField // transfers value to textfield which has more scope
+            print(textField.text!)
+            print("Now")
+            }
+
+            
+        alert.addAction(action)
+        
+        present(alert, animated: true, completion: nil)
     }
     
 }
